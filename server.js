@@ -43,6 +43,16 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Health Check Route
+app.get('/api/test', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected';
+  res.json({ 
+    status: 'Server is Live', 
+    database: dbStatus,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Routes
 app.post('/api/contact', async (req, res) => {
   console.log('Received contact request:', req.body);
